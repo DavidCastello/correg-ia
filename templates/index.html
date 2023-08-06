@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+    <title>Text Analyzer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/retro-new-version" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <style>
+        .field-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>correg-ia</h1>
+    <form id="analyze-form">
+        <textarea id="input-text" rows="10" cols="50"></textarea><br>
+        <button type="submit">Analyze</button>
+        <i id="loading-icon" class="fas fa-spinner fa-pulse" style="display:none;"></i>
+    </form>
+    <div id="fields-container" style="display:none;"></div>
+    <button id="correct" style="display:none;">Correct</button>
+    <i id="loading-icon-correct" class="fas fa-spinner fa-pulse" style="display:none;"></i>
+    <button id="export-pdf" class="btn btn-primary" style="display:none;">Export Report</button>
+    <pre id="final-output" style="display:none;"></pre>
+
+    <script>
+        let jsonData;
+
+        function removeEvalItem(inputWrapper) {
+            inputWrapper.remove();
+        }
+
+        function addEvalItem(fieldContainer, questionIndex, addNewButton) {
+            const inputWrapper = $("<div style='display: flex; align-items: center;'></div>");
+            const evalItemIndex = jsonData.questions[questionIndex].eval_items.length;
+            jsonData.questions[questionIndex].eval_items.push("");
+
+            const input = $(`<input type="text" data-question-index="${questionIndex}" data-eval-item-index="${evalItemIndex}" style="flex-grow: 1;" />`);
+            inputWrapper.append(input);
+
+            const deleteIcon = $(`<i class="fas fa-trash-alt" style="cursor:pointer;margin-left:5px;"></i>`);
+            deleteIcon.on("click", function (event) {
+                event.preventDefault();
+                removeEvalItem(inputWrapper);
+            });
+            inputWrapper.append(deleteIcon);
+
+            // Insert the new input field and delete icon above the "Add New" button
+            addNewButton.before(inputWrapper);
+            addNewButton.before('<br>'); // Add a line break for better formatting
+        }
+
+        function generateFields(data) {
+            console.log(data);
+            jsonData = data;
+            $("#fields-container").empty();
+
+            if (data && data.questions) {
+                for (let i = 0; i < data.questions.length; i++) {
+                    const question = data.questions[i];
+                    const fieldContainer = $("<div class='field-container'></div>");
+                    fieldContainer.append(`<h3>${question.question}</h3>`);
+
+                    if (question && question.eval_items) {
+                        for (let j = 0; j < question.eval_items.length; j++) {
+                            const inputWrapper = $("<div style='display: flex; align-items: center;'></div>");
+
+                            const input = $(`<input type="text" data-question-index="${i}" data-eval-item-index="${j}" style="flex-grow: 1;" />`);
+                            input.val(question.eval_items[j]);
+                            inputWrapper.append(input);
+
+                            // Add a delete icon next to each input field
+                            const deleteIcon = $(`<i class="fas fa-trash-alt" style="cursor:pointer;margin-left:5px;"></i>`);
+                            deleteIcon.on("click", function (event) {
+                                event.preventDefault();
+                                removeEvalItem(inputWrapper);
+                            });
+                            inputWrapper.append(deleteIcon);
+
+                            fieldContainer.append(inputWrapper);
+                            fieldContainer.append('<br>');  // Add a line break for better formatting
+                        }
+                    }
+
+                    // Add "Add New" button
+                    const addNewButton = $(`<button type="button" class="add-new" style="margin-top:10px;">Add New</button>`);
+                    addNewButton.on("click", function (event) {
+                        event.preventDefault();
+                        addEvalItem(fieldContainer, i, addNewButton);
+                    });
+                    fieldContainer.append(addNewButton);
+
+                    $("#fields-container").append(fieldContainer);
+                }
+            }
+        }
+
+        function collectData() {
+            var data = {};
+            $(".item-input").each(function () {
+                var field = $(this).data("field");
+                var index = $(this).data("index");
+                if (!data[field]) {
+                    data[field] = { items: [] };
+                }
+                data[field].items[index] = $(this).val();
+            });
+            return data;
+        }
+
+        async function correct() {
+            const modifiedData = {
+                author: jsonData.author,
+                grade: jsonData.grade,
+                questions: [],
+            };
+
+            $("#fields-container .field-container").each(function (questionIndex) {
+                const questionContainer = $(this);
+                const question = jsonData.questions[questionIndex];
+                const modifiedQuestion = {
+                    question: question.question,
+                    answer: question.answer,
+                    total_points: question.total_points,
+                    eval_items: [],
+                };
+
+                questionContainer.find("input").each(function () {
+                    const input = $(this);
+                    const evalItemIndex = input.data("eval-item-index");
+                    modifiedQuestion.eval_items[evalItemIndex] = input.val();
+                });
+
+                modifiedData.questions.push(modifiedQuestion);
+            });
+
+            const response = await fetch("/correct", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(modifiedData),
+            });
+
+            const resultJson = await response.json();
+            displayResult(resultJson);
+        }
+
+        let reportData;
+
+        function displayResult(result) {
+            reportData = result;
+            let output = `
+                <h3>Author: ${result.author}</h3>
+                <p>Grade: ${result.grade}</p>
+                <h4>Final score: ${result["final score"].toFixed(2)}</h4>
+                <hr>
+            `;
+
+            result.questions.forEach((question, index) => {
+                output += `
+                    <h4>Question ${index + 1}: ${question.question}</h4>
+                    <p><strong>Eval items:</strong></p>
+                    <ul>
+                        ${question.eval_items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                    <p><strong>Marks:</strong> ${question.marks.map(mark => mark ? '✓' : '✗').join(', ')}</p>
+                    <p><strong>Comment:</strong> ${question.comment}</p>
+                    <hr>
+                `;
+            });
+
+            $("#final-output").html(output);
+            $("#export-pdf").show(); // Show the "Export PDF" button
+        }
+
+        document.getElementById("export-pdf").addEventListener("click", function () {
+            const pdf = new jsPDF();
+            pdf.setFontSize(16);
+            let offsetY = 20;
+
+            function addTextWrapped(text, offsetX, offsetY, maxWidth) {
+                const textLines = pdf.splitTextToSize(text, maxWidth);
+                textLines.forEach(line => {
+                    pdf.text(line, offsetX, offsetY);
+                    offsetY += 8;
+                });
+                return offsetY;
+            }
+
+            pdf.text("Author: " + reportData.author, 10, offsetY);
+            offsetY += 8;
+            pdf.text("Grade: " + reportData.grade, 10, offsetY);
+            offsetY += 8;
+
+            reportData.questions.forEach((question, index) => {
+                offsetY += 8;
+                offsetY = addTextWrapped("Question " + (index + 1) + ": " + question.question, 10, offsetY, 180);
+                offsetY += 8;
+                offsetY = addTextWrapped("Eval items:", 10, offsetY, 180);
+
+                question.eval_items.forEach(item => {
+                    offsetY += 8;
+                    offsetY = addTextWrapped("- " + item, 20, offsetY, 180);
+                });
+
+                offsetY += 8;
+                offsetY = addTextWrapped("Marks: " + question.marks.map(mark => mark ? '✓' : '✗').join(', '), 10, offsetY, 180);
+
+                offsetY += 8;
+                offsetY = addTextWrapped("Comment: " + question.comment, 10, offsetY, 180);
+                offsetY += 8;
+            });
+
+            pdf.save("report.pdf");
+        });
+
+        $("#analyze-form").on("submit", function (event) {
+            event.preventDefault();
+            $("#loading-icon").show(); // Show the loading icon
+            $.post("/", { text: $("#input-text").val() }, function (data) {
+                generateFields(data);
+                $("#fields-container").show();
+                $("#correct").show();
+                $("#loading-icon").hide(); // Hide the loading icon
+            });
+        });
+
+        $("#correct").on("click", function () {
+            $("#loading-icon-correct").show(); // Show the loading icon
+            correct(jsonData).then((result) => {
+                $("#final-output").text(JSON.stringify(result, null, 4)).show();
+                $("#loading-icon-correct").hide(); // Hide the loading icon
+            }).catch((error) => {
+                console.error("Error in correct function:", error);
+                $("#loading-icon-correct").hide(); // Hide the loading icon
+            });
+        });
+    </script>
+</body>
+
+</html>

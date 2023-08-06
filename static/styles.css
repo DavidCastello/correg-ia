@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1d3042, #1b5364);
+    color: #e0e0e0;
+    margin: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: #dedde6;
+    font-family: 'Lucida Console';
+    font-size: 80px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+textarea {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1em;
+    resize: none;
+    width: 100%;
+}
+
+#input-text {
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(240, 240, 240, 0.1);
+    color: #e0e0e0;
+    border: 1px solid rgba(240, 240, 240, 0.3);
+}
+
+input[type="text"] {
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(240, 240, 240, 0.1);
+    color: #e0e0e0;
+    border: 1px solid rgba(240, 240, 240, 0.3);
+}
+
+button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background: rgba(240, 240, 240, 0.1);
+    color: #e0e0e0;
+    border: 1px solid rgba(240, 240, 240, 0.3);
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: rgba(240, 240, 240, 0.2);
+}
+
+.field-container {
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+pre {
+    border-radius: 5px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    font-size: 1em;
+    background: rgba(31, 37, 35, 0.2);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: Arial, sans-serif;
+}
+
+pre p {
+    margin: 0;
+}
+
+pre ul {
+    margin: 0;
+}
+
+.field-container {
+    margin-bottom: 20px;
+}
+
+.result-container {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.result-container h3 {
+    margin-top: 0;
+}

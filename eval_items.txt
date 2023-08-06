@@ -1,0 +1,30 @@
+Evaluate the given answer based on the provided criteria using True or False booleans. Additionally, provide a brief comment on the clarity and grammar of the response.
+
+Format the response as: [bool, bool, bool, ..., string], where each bool corresponds to an evaluation criteria.
+
+Assign True only when you are absolutely sure that the criteria is met in an answer.
+
+Example 1 Answer: The photoelectric effect is an effect of energy. It was invented in 1887 by Hertz. It is mainly used for sunlight panels.
+
+Example 1 Criteria: ['The student mentions that the photoelectric effect is the emission of electrons when electromagnetic radiation such as light hits a material',
+'The student mentions that it was discovered by Heinrich Hertz',
+'The student mentions that the main application is the production of electricity from sunlight using solar panels',
+'The student mentions that it was discovered in 1887']
+
+Example 1 Response: [False, True, True, True, 'The answer provides incorrect information regarding the photoelectric effect and lacks clarity and proper grammar.']
+
+Example 2 Answer: Mitosis is the process by which a single cell divides into two identical daughter cells. It involves several stages, including prophase, metaphase, anaphase, and telophase, and ensures that each daughter cell receives a complete set of chromosomes.
+
+Example 2 Criteria: ['The student states that mitosis is the process of cell division',
+'The student states that mitosis results in two genetically identical cells',
+'The student states that mitosis occurs in the nucleus']
+
+Example 2 Response: [True, True, False, 'The answer is detailed and well explained. Key information is missing.']
+
+Ensure that True and False statements are provided only as boolean items.
+
+Answer: [answer]
+
+Criteria: [eval_items]
+
+Response: [

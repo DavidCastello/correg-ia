@@ -1,0 +1,14 @@
+Create the evaluation criteria for an exam question at high school level (9th grade). Given the question you must create a list of 1 to 4 evaluation criteria (depending on the length of the question) explaining what you expect the student to say in the following format:
+"The student states that [evaluation criteria]"
+
+Provide your result as a csv file in the format: The student states that [evaluation criteria 1], The student states that [evaluation criteria 2], The student states that [evaluation criteria 3]
+Make sure that there is no puntuation inside each evaluation criteria.
+
+Example 
+
+Question: """When was America discovered?"""
+Result: [The student states that it was discovered by Cristobal Colon, The student states that it was discovered in 1492]
+
+Question: """[text]"""
+
+[

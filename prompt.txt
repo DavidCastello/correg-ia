@@ -1,0 +1,104 @@
+The following is a from a high school exam. Extract the following fields as a JSON file.  
+
+- "author": Name of the author
+- "grade": Grade: choose 1ºESO, 2ºESO, 3ºESO or 4ºESO
+- "questions": For each question, store the fields "question", "answer", and "total points". 
+
+If you cannot find a pice of information type "None". In the field "answer", copy the text as it is, including all spelling mistakes and without adding any additional information.
+
+Example below 
+
+Text:"""
+Juana de Arco María
+
+4ºESOA
+
+Biology 2
+
+Test 1
+
+Theory and Problema Unit 3 General
+
+Answer all questions. Write your answers in the space provided.
+
+1. Photosintesis is... (5pts) Photosynthesis is the process by which chlorophyll, 
+
+carbon dioxide, and water. The of photosynthesis 
+
+are glucose and oxygen.
+
+What is osmosis? (5pts)
+
+Osmosis molecules from a region of higher concentration to a region of lower concentration through a semi-permeable membrane. This process is essential for the absorption of water by plant roots and the maintenance of cell turgor in 
+
+animals.
+
+Describe the strucccture of a DNA molecule. (10pts) DNA is a double-stranded helix made up of nucleotides. Each nucleotide contains a nitrogenous base, a sugar molecule, and a phosphate group. The nitrogenous bases include adenine, thymine, cytosine, and guanine, and they pair up in a specific way (A with T, and C with G) to form the "rungs" of the DNA ladder. The sugar-phosphate backbone forms the "sides" of the ladder.
+
+What is natural selection? (10pts)
+
+Question 5. What is mitosis? (5pts)
+
+Mitosis 
+
+is the process by whitch a single cell divides into two identical daughter cells. It involves several stages, including prophase, metaphase, anaphase, 
+
+and telophase, and ensures that each daughter cell receives a complete set of 
+
+6. What is the function of the respiratory system? (5pts)
+
+The respiratory system is responsible for the exchange of gases between the body and the environment. It brings oxygen into the body and removes carbon dioxide and other waste gases.
+
+Explain the process of meiosis. (10pts) Meiosis is a type of cell division that results in the formation of haploid cells (gametes) from diploid cells. The process involves two rounds of cell division, meiosis I and meiosis II, and produces four daughter cells that are genetically different from each other and from the parent cell. 
+
+Meiosis I involves the separation of homologous chromosomes, while meiosis II involves the separation of sister chromatids. This results in the production of four genetically diverse haploid cells.
+"""
+
+Response:"""{
+	"author": "Juana de Arco María",
+	"grade": "4º de ESO",
+	"questions": [
+		{
+			"question": "Photosintesis is...",
+			"answer": "Photosynthesis is the process by chlorophyll, carbon dioxide, and water. The of photosynthesis are glucose and oxygen.",
+			"total points": 5
+		},
+		{
+			"question": "What is osmosis?",
+			"answer": "Osmosis molecules from a region of higher concentration to a region of lower concentration through a semi-permeable membrane. This process is essential for the absorption of water by plant roots and the maintenance of cell turgor in animals.",
+			"total points": 5
+		},
+		{
+			"question": "Describe the strucccture of a DNA molecule.",
+			"answer": "DNA is a double-stranded helix made up of nucleotides. Each nucleotide contains a nitrogenous base, a sugar molecule, and a phosphate group. The nitrogenous bases include adenine, thymine, cytosine, and guanine, and they pair up in a specific way (A with T, and C with G) to form the 'rungs' of the DNA ladder. The sugar-phosphate backbone forms the 'sides' of the ladder.",
+			"total points": 10
+		},
+		{
+			"question": "What is natural selection?",
+			"answer": "None",
+			"total points": 10
+		},
+		{
+			"question": "What is mitosis?",
+			"answer": "Mitosis is the process by whitch a single cell divides into two identical daughter cells. It involves several stages, including prophase, metaphase, anaphase, and telophase, and ensures that each daughter cell receives a complete set of ",
+			"total points": 5
+		},
+		{
+			"question": "What is the function of the respiratory system?",
+			"answer": "The respiratory system is responsible for the exchange of gases between the body and the environment. It brings oxygen into the body and removes carbon dioxide and other waste gases.",
+			"total points": 5
+		},
+		{
+			"question": "Explain the process of meiosis.",
+			"answer": "Meiosis is a type of cell division that results in the formation of haploid cells (gametes) from diploid cells. The process involves two rounds of cell division, meiosis I and meiosis II, and produces four daughter cells that are genetically different from each other and from the parent cell. Meiosis I involves the separation of homologous chromosomes, while meiosis II involves the separation of sister chromatids. This results in the production of four genetically diverse haploid cells.",
+			"total points": 10
+		}
+	]
+}
+
+"""
+
+Text: """[text]
+"""
+
+Response: {
