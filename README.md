@@ -1,4 +1,4 @@
-## gpteacher_exam_corrector
+## correg-ia
 
 # Flask App for Exam Correction with ChatGPT
 
