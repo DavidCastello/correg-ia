@@ -5,6 +5,12 @@
 This web application is designed to correct exams using ChatGPT. The application provides an interface where users can input the text of an exam and receive corrections.
 The application is designed to handle raw text from a written exam. Use google lens to copy all text from a written exam and copy directly the text directly into the app, or copy the text directly from a text file on your computer.
 
+![Screenshot 1](https://prod-files-secure.s3.us-west-2.amazonaws.com/c285867e-8fab-4513-a67d-36ef1088fc1c/2f209bb8-f5b5-4962-b585-08a425de913a/Untitled.png)
+
+![Screenshot 2](https://prod-files-secure.s3.us-west-2.amazonaws.com/c285867e-8fab-4513-a67d-36ef1088fc1c/9ae8bb7b-c90e-4b83-af5a-1543d5998223/Untitled.png)
+
+![Screenshot 3](https://prod-files-secure.s3.us-west-2.amazonaws.com/c285867e-8fab-4513-a67d-36ef1088fc1c/9e8f7162-8885-4047-be2c-fe008c1a11e5/Untitled.png)
+
 ## Features
 
 1. **Analysis of Text**: Enter the text of an exam to get an analysis.
